@@ -1,6 +1,9 @@
 <Solution>
   <Folder Name="/src/" />
-  <Folder Name="/src/orchestration/" />
+  <Folder Name="/src/orchestration/">
+    <Project Path="src\orchestration\Modular.AppHost\Modular.AppHost.csproj" Type="Classic C#" />
+    <Project Path="src\orchestration\Modular.ServiceDefaults\Modular.ServiceDefaults.csproj" Type="Classic C#" />
+  </Folder>
   <Folder Name="/src/services/" />
   <Folder Name="/src/services/api/" />
   <Folder Name="/src/services/api/common/">
@@ -19,6 +22,8 @@
   <Folder Name="/src/services/api/modules/users/data/">
     <Project Path="src\services\api\modules\users\data\Modular.Modules.Users.Data\Modular.Modules.Users.Data.csproj" Type="Classic C#" />
   </Folder>
-  <Folder Name="/src/services/api/web/" />
+  <Folder Name="/src/services/api/web/">
+    <Project Path="src\services\api\web\Modular.WebApi\Modular.WebApi.csproj" Type="Classic C#" />
+  </Folder>
   <Folder Name="/tests/" />
 </Solution>
