@@ -14,6 +14,7 @@
     <Project Path="src/services/api/modules/users/Modular.Modules.Users.Domain/Modular.Modules.Users.Domain.csproj" />
     <Project Path="src\services\api\modules\users\Modular.Modules.Users.Application\Modular.Modules.Users.Application.csproj" Type="Classic C#" />
     <Project Path="src\services\api\modules\users\Modular.Modules.Users.Infrastructure\Modular.Modules.Users.Infrastructure.csproj" Type="Classic C#" />
+    <Project Path="src\services\api\modules\users\Modular.Modules.Users.Presentation\Modular.Modules.Users.Presentation.csproj" Type="Classic C#" />
   </Folder>
   <Folder Name="/src/services/api/modules/users/data/">
     <Project Path="src\services\api\modules\users\data\Modular.Modules.Users.Data\Modular.Modules.Users.Data.csproj" Type="Classic C#" />

@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\Modular.Common.Presentation\Modular.Common.Presentation.csproj" />
+    <ProjectReference Include="..\Modular.Modules.Users.Application\Modular.Modules.Users.Application.csproj" />
+  </ItemGroup>
+</Project>

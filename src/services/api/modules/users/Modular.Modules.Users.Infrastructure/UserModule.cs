@@ -5,9 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Modular.Common.Domain.Abstractions;
 using Modular.Common.Infrastructure.Data;
+using Modular.Common.Presentation.Endpoints;
 using Modular.Modules.Users.Data.Contexts;
 using Modular.Modules.Users.Domain.Abstractions;
 using Modular.Modules.Users.Infrastructure.Users;
+using Modular.Modules.Users.Presentation;
 
 namespace Modular.Modules.Users.Infrastructure;
 
@@ -25,11 +27,8 @@ public static class UserModule
     public static IServiceCollection AddUserModule(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddInfrastructure(configuration);
-
-        // TODO: Add endpoint integration
-
-        return services;
+        return services.AddInfrastructure(configuration)
+            .AddEndpoints(AssemblyReference.Assembly);
     }
 
     /// <summary>
