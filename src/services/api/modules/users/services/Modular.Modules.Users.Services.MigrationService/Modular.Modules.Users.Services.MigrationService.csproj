@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <UserSecretsId>dotnet-Modular.Modules.Users.Services.MigrationService-0b2f4c41-4c4e-4d13-b5fc-66305e9e1c7a</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="EFCore.NamingConventions" />
+        <PackageReference Include="Microsoft.Extensions.Hosting"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\..\orchestration\Modular.ServiceDefaults\Modular.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\..\data\Modular.Modules.Users.Data\Modular.Modules.Users.Data.csproj" />
+    </ItemGroup>
+</Project>

@@ -22,6 +22,9 @@
   <Folder Name="/src/services/api/modules/users/data/">
     <Project Path="src\services\api\modules\users\data\Modular.Modules.Users.Data\Modular.Modules.Users.Data.csproj" Type="Classic C#" />
   </Folder>
+  <Folder Name="/src/services/api/modules/users/services/">
+    <Project Path="src\services\api\modules\users\services\Modular.Modules.Users.Services.MigrationService\Modular.Modules.Users.Services.MigrationService.csproj" Type="Classic C#" />
+  </Folder>
   <Folder Name="/src/services/api/web/">
     <Project Path="src\services\api\web\Modular.WebApi\Modular.WebApi.csproj" Type="Classic C#" />
   </Folder>

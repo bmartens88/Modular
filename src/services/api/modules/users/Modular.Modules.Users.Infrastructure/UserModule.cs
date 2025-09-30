@@ -41,7 +41,7 @@ public static class UserModule
         IConfiguration configuration)
     {
         services.AddDbContextPool<UsersDbContext>((sp, opts) =>
-            opts.UseNpgsql(configuration.GetConnectionString("userDb"),
+            opts.UseNpgsql(configuration.GetConnectionString("usersDb"),
                     npgsqlOptions => npgsqlOptions
                         .MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Users))
                 .AddInterceptors(sp.GetRequiredService<DomainEventsInterceptor>())
