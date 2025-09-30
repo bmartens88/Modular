@@ -35,8 +35,8 @@ else
 
 app.UseHttpsRedirection();
 app.UseExceptionHandler();
-app.UseAuthentication();
-app.UseAuthorization();
+// app.UseAuthentication();
+// app.UseAuthorization();
 
 app.MapEndpoints();
 app.MapDefaultEndpoints();
