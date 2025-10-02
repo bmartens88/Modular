@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="EFCore.NamingConventions" />
+      <PackageReference Include="MassTransit" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" />
     </ItemGroup>
 

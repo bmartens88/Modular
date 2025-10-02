@@ -1,7 +1,6 @@
 using Modular.Common.Application;
 using Modular.Common.Infrastructure;
 using Modular.Common.Presentation.Endpoints;
-using Modular.Modules.Users.Application;
 using Modular.Modules.Users.Infrastructure;
 using Modular.WebApi.Middleware;
 
@@ -15,9 +14,10 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 
-builder.Services.AddApplication(AssemblyReference.Assembly);
+builder.Services.AddApplication(Modular.Modules.Users.Application.AssemblyReference.Assembly);
 
-builder.Services.AddInfrastructure();
+// TODO: Add module consumer(s)
+builder.Services.AddInfrastructure([]);
 
 builder.Services.AddUserModule(builder.Configuration);
 

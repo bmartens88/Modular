@@ -4,6 +4,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design"/>
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\common\Modular.Common.Infrastructure\Modular.Common.Infrastructure.csproj" />
       <ProjectReference Include="..\..\Modular.Modules.Users.Domain\Modular.Modules.Users.Domain.csproj" />
     </ItemGroup>
 </Project>

@@ -1,46 +1,50 @@
-using MediatR;
+using System.Text.Json;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using Modular.Common.Domain.Abstractions;
+using Modular.Common.Infrastructure.Outbox;
 
 namespace Modular.Common.Infrastructure.Data;
 
 /// <summary>
 ///     Implementation of <see cref="SaveChangesInterceptor" /> which published registered domain events (if any).
 /// </summary>
-/// <param name="publisher"><see cref="IPublisher" /> implementation used for publishing the events.</param>
-public sealed class DomainEventsInterceptor(IPublisher publisher) : SaveChangesInterceptor
+public sealed class DomainEventsInterceptor : SaveChangesInterceptor
 {
-    public override async ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result,
+    /// <inheritdoc />
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
+        InterceptionResult<int> result,
         CancellationToken cancellationToken = new())
     {
         if (eventData.Context is { } dbContext)
         {
-            await PublishDomainEventsAsync(dbContext, cancellationToken);
+            InsertOutboxMessages(dbContext);
         }
 
-        return await base.SavedChangesAsync(eventData, result, cancellationToken);
+        return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
     /// <summary>
-    ///     Publishes all registered domain events on any entry of type <see cref="IAggregateRoot" />.
+    ///     Converts all registered domain events (if any) to <see cref="OutboxMessage" /> and inserts them into the database.
     /// </summary>
-    /// <param name="context"><see cref="DbContext" /> abstraction used for database interaction.</param>
-    /// <param name="cancellationToken">Propagates notification that processes should be canceled.</param>
-    private async Task PublishDomainEventsAsync(DbContext context, CancellationToken cancellationToken = default)
+    /// <param name="dbContext">The context used for database interaction.</param>
+    private static void InsertOutboxMessages(DbContext dbContext)
     {
-        IDomainEvent[] domainEvents = context
-            .ChangeTracker
+        OutboxMessage[] outboxMessages = dbContext.ChangeTracker
             .Entries<IAggregateRoot>()
             .Select(entry => entry.Entity)
             .SelectMany(entity => entity.PopDomainEvents())
+            .Select(domainEvent => new OutboxMessage
+            {
+                Id = Guid.NewGuid(),
+                Type = domainEvent.GetType().Name,
+                Content = JsonSerializer.Serialize(domainEvent, JsonSerializerOptions.Default),
+                OccurredOnUtc = DateTime.UtcNow
+            })
             .ToArray();
 
-        foreach (IDomainEvent domainEvent in domainEvents)
-        {
-            await publisher.Publish(domainEvent, cancellationToken);
-        }
+        dbContext.Set<OutboxMessage>().AddRange(outboxMessages);
     }
 }

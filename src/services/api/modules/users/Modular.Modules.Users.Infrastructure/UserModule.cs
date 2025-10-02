@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
+using Modular.Common.Application.Messaging;
 using Modular.Common.Domain.Abstractions;
 using Modular.Common.Infrastructure.Data;
 using Modular.Common.Presentation.Endpoints;
@@ -27,7 +29,9 @@ public static class UserModule
     public static IServiceCollection AddUserModule(this IServiceCollection services,
         IConfiguration configuration)
     {
-        return services.AddInfrastructure(configuration)
+        return services
+            .Test()
+            .AddInfrastructure(configuration)
             .AddEndpoints(AssemblyReference.Assembly);
     }
 
@@ -50,6 +54,29 @@ public static class UserModule
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
+
+        return services;
+    }
+
+    private static IServiceCollection Test(this IServiceCollection services)
+    {
+        Type[] domainEventHandlers = Application.AssemblyReference.Assembly
+            .GetTypes()
+            .Where(t => t.IsAssignableTo(typeof(IDomainEventHandler)))
+            .ToArray();
+
+        foreach (Type domainEventHandler in domainEventHandlers)
+        {
+            Type domainEvent = domainEventHandler
+                .GetInterfaces()
+                .Single(i => i.IsGenericType)
+                .GetGenericArguments()
+                .Single();
+
+            // Type closedDomainEventHandler = domainEventHandler.MakeGenericType(domainEvent);
+
+            services.TryAddScoped(domainEventHandler);
+        }
 
         return services;
     }
